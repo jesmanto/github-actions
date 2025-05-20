@@ -207,13 +207,27 @@ I faced so many challenges that caused my workflows to fail, these challenges in
     ![](./img/lint-test.png)
 - I used a deprecated action/cache@v2
     ![](./img/deprecated_action.png)
-- integrating unit tests
+- Problem logging in to my docker hub account 
+    ![](./img/docker_error.png)
 
-## Lessons Learnt
-- I can trigger a workflow with the success status of the previous workflow 
-- secrets variables must be stored separately for each repository. This took me 2 hours to figure out, after a lot of trials.
-- When working with github action yaml files, `name`, `uses` and `run` must be on the same line of indentation.
-- You can not have two `run` statements in the same step.
+## How I solved the challenges
+- For ESLint not recognizing jest commands, I edited the eslint.config file and added a new rule to accommodate test files.
+    ```
+    { 
+        files: ["**/*.test.js","**/__tests__/*.js"], 
+        languageOptions: { globals: globals.jest } 
+    },
+    ```
+- For deprecated `action/cache@v2`, I check github actions market place for the action and got the latest version `action/cache@v4`
+- For docker hub logging problem, I consulted google and chatgpt, and I discover that I was using the `--password` flag instead of `--password-stanin`. It worked after changing it from
+    ```
+    run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" --password-stdin
+    ```
+    to
+
+    ```
+    run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    ```
 
 ## Best Practices
 - Keep your actions minimal
