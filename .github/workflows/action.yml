@@ -4,14 +4,20 @@ on:
   push:
     branches: [ main]
 
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+
 jobs:
   build:
     name: Build and Run Unit Tests
     runs-on: ubuntu-latest
 
+    environment: production
+
     strategy:
       matrix:
-        node-version: [17, 18, 19]
+        node-version: [18, 19, 20]
 
     steps:
     - name: Checkout
@@ -40,8 +46,8 @@ jobs:
       run: npm test
     
     - name: Login to Docker Hub
-      run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }} --password-stdin
+      run: echo "$DOCKER_USERNAME" | docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" --password-stdin
     - name: Build Docker Image
-      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/github-actions-demo:latest .
+      run: docker build -t "$DOCKER_USERNAME"/github-actions-demo:latest .
     - name: Push Docker Image to Docker Hub
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/github-actions-demo:latest
+      run: docker push "$DOCKER_USERNAME"/github-actions-demo:latest
