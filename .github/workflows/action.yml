@@ -46,7 +46,7 @@ jobs:
       run: npm test
     
     - name: Login to Docker Hub
-      run: echo "$DOCKER_USERNAME" | docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" --password-stdin
+      run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - name: Build Docker Image
       run: docker build -t "$DOCKER_USERNAME"/github-actions-demo:latest .
     - name: Push Docker Image to Docker Hub
