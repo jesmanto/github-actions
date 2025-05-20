@@ -203,8 +203,10 @@ In order to ensure our code meets standard quality, we need to put in place a co
 
 ## Challenges Faced
 I faced so many challenges that caused my workflows to fail, these challenges include:
-- Creating new environments and variables.
-- Managing dependencies across different environment
+- ESLint not able to recognize my test files and variables.
+    ![](./img/lint-test.png)
+- I used a deprecated action/cache@v2
+    ![](./img/deprecated_action.png)
 - integrating unit tests
 
 ## Lessons Learnt
