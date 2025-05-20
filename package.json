@@ -25,10 +25,11 @@
   },
   "homepage": "https://github.com/jesmanto/github-actions#readme",
   "devDependencies": {
+    "@eslint/js": "^9.27.0",
     "dotenv": "^16.4.7",
     "eslint": "^9.27.0",
-    "eslint-plugin-jest": "^28.11.0",
     "express": "^4.21.2",
+    "globals": "^16.1.0",
     "jest": "^29.7.0",
     "supertest": "^7.1.0"
   }
