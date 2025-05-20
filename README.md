@@ -219,7 +219,7 @@ I faced so many challenges that caused my workflows to fail, these challenges in
     },
     ```
 - For deprecated `action/cache@v2`, I check github actions market place for the action and got the latest version `action/cache@v4`
-- For docker hub logging problem, I consulted google and chatgpt, and I discover that I was using the `--password` flag instead of `--password-stanin`. It worked after changing it from
+- For docker hub logging problem, I consulted google and chatgpt, and I discover that I was using the `--password` flag instead of `--password-stdin`. It worked after changing it from
     ```
     run: echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" --password-stdin
     ```
