@@ -1,0 +1,47 @@
+name: Build, Test and Deploy Node App
+
+on:
+  push:
+    branches: [ main, staging, dev ]
+
+jobs:
+  build:
+    name: Build and Run Unit Tests
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14, 16, 18]
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js 
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ matrics.node-version }}
+
+    - name: Cache Node.js modules
+      uses: actions/cache@v2
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Install dependencies
+      run: npm install --save-dev jest supertest express
+
+    - name: Run ESLint
+      run: npm run lint
+
+    - name: Run tests
+      run: npm test
+    
+    - name: Login to Docker Hub
+      run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+    - name: Build Docker Image
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/sample_node_app:latest .
+    - name: Push Docker Image to Docker Hub
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/sample_node_app:latest
