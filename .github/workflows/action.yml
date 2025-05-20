@@ -20,7 +20,7 @@ jobs:
     - name: Setup Node.js 
       uses: actions/setup-node@v2
       with:
-        node-version: ${{ matrics.node-version }}
+        node-version: ${{ matrix.node-version }}
 
     - name: Cache Node.js modules
       uses: actions/cache@v2
@@ -42,6 +42,6 @@ jobs:
     - name: Login to Docker Hub
       run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Build Docker Image
-      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/sample_node_app:latest .
+      run: docker build -t ${{ secrets.DOCKER_USERNAME }}/github-actions-demo:latest .
     - name: Push Docker Image to Docker Hub
-      run: docker push ${{ secrets.DOCKER_USERNAME }}/sample_node_app:latest
+      run: docker push ${{ secrets.DOCKER_USERNAME }}/github-actions-demo:latest
